@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <title>Tasks</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Tasks</h1>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ TaskForm.title }}
+            <input type="submit" value="Create Task">
+        </form>
+
+        {% for task in tasks %}
+        <div class="task">
+            <p>{{ task.title }}</p>
+            <p>Created on: {{ task.created }}</p>
+            <p>Status: 
+                {% if task.completed %}
+                <span class="completed">Completed</span>
+                {% else %}
+                <span class="not-completed">Not Completed</span>
+                {% endif %}
+            </p>
+            <div class="actions">
+                <a href="{% url 'update_task' task.id %}">Update</a>
+                <a href="{% url 'delete_task' task.id %}">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
